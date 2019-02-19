@@ -1,3 +1,5 @@
+package shapeTransformation;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -5,15 +7,18 @@ import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 
 public class Test extends JFrame {
-       final static int FRAME_WIDTH = 400, FRAME_HEIGHT = 400;
-       final static double SHAPE_WIDTH = 300, SHAPE_HEIGHT = 200;
-       static double shapeAngle = 45, rotateAngle = 0;
+      public final static int FRAME_WIDTH = 400;
+      public final static int FRAME_HEIGHT = 400;
+      public final static double SHAPE_WIDTH = 300;
+      public final static double SHAPE_HEIGHT = 200;
+      public static double shapeAngle = 45;
+      private static double rotateAngle = 0;
+      private static Stroke stroke = new BasicStroke(5);
+      private static Color outlineColor = Color.BLACK;
+      private static Color fillColor = Color.RED;
+      private static AffineTransform affineTransform;
 
-       static Stroke stroke = new BasicStroke(5);
-       static Color outlineColor = Color.BLACK, fillColor = Color.RED;
-       static AffineTransform affineTransform;
-
-       public static void main(String[] args){
+       public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -24,7 +29,7 @@ public class Test extends JFrame {
         fillColor = new Color(Integer.parseInt(args[2], 16));
 
         JPanel panel = new JPanel() {
-            public void paint(Graphics graphics){
+            public void paintComponent(Graphics graphics) {
                 Graphics2D graphics2D = (Graphics2D)graphics;
                 graphics.setColor(Color.white);
                 graphics.fillRect(0,0, getWidth(), getHeight());
@@ -37,15 +42,12 @@ public class Test extends JFrame {
                 graphics2D.fill(shapeArc);
             }
         };
-        Timer timer = new Timer(20, new ActionListener(){
+        Timer timer = new Timer(20, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (rotateAngle < 360)
-                    rotateAngle += 1;
-                else
-                    rotateAngle = 0;
-                shapeArc.setRotateAngle(rotateAngle);
-                panel.repaint();
+               rotateAngle = (rotateAngle < 360) ?  (rotateAngle +=1) : 0;
+               shapeArc.setRotateAngle(rotateAngle);
+               panel.repaint();
             }
         });
         timer.start();
